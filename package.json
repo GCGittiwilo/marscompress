@@ -4,6 +4,26 @@
   "description": "Open, query-aware context compression for chatbots and LLM applications.",
   "license": "MIT",
   "private": false,
+  "homepage": "https://marscompress-open.cify6gaming.chatgpt.site",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GCGittiwilo/marscompress.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GCGittiwilo/marscompress/issues"
+  },
+  "keywords": [
+    "llm",
+    "chatbot",
+    "context-compression",
+    "rag",
+    "prompt-optimization",
+    "token-reduction",
+    "ai"
+  ],
+  "sideEffects": false,
+  "main": "./lib/compress.js",
+  "types": "./lib/compress.d.ts",
   "files": [
     "lib",
     "bin",
@@ -24,8 +44,9 @@
     "sharp": "0.35.3"
   },
   "engines": {
-    "node": ">=22.13.0"
+    "node": ">=18.0.0"
   },
+  "packageManager": "npm@11.12.1",
   "scripts": {
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext dev",
     "build": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext build",
@@ -36,29 +57,28 @@
     "benchmark": "node scripts/benchmark.mjs",
     "benchmark:scale": "node scripts/scale-benchmark.mjs",
     "benchmark:pareto": "node scripts/pareto.mjs",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
-  },
-  "dependencies": {
-    "next": "^16.2.12",
-    "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "prepublishOnly": "npm run typecheck && npm test"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.37.1",
+    "@eslint/js": "10.0.1",
+    "next": "^16.2.12",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "@cloudflare/vite-plugin": "1.47.0",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
     "@vitejs/plugin-rsc": "0.5.26",
-    "eslint": "9.39.4",
-    "eslint-config-next": "16.2.6",
-    "react-server-dom-webpack": "19.2.6",
+    "eslint": "10.8.0",
+    "react-server-dom-webpack": "19.2.8",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
     "vinext": "0.0.50",
-    "vite": "8.0.13",
-    "wrangler": "4.92.0"
+    "vite": "8.1.5",
+    "wrangler": "4.114.0"
   },
   "type": "module"
 }
