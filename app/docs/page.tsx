@@ -13,7 +13,7 @@ export default function DocsPage() {
       <Header />
       <section className="page-shell">
         <div className="page-hero">
-          <p className="section-kicker">DOCUMENTATION / v1</p>
+          <p className="section-kicker">DOCUMENTATION / v2</p>
           <h1>One preprocessing step. Any model.</h1>
           <p>
             MarsCompress is a deterministic context compiler. Give it context and
@@ -66,6 +66,19 @@ const answer = await provider.chat({
     { role: "user", content: userMessage }
   ]
 });`}</pre>
+            <h3>Structured chat history</h3>
+            <p>
+              Pass role-aware messages to preserve linked user/assistant exchanges,
+              tool-call dependencies, recent state updates, and the current turn:
+            </p>
+            <pre className="code-block">{`import { compressMessages } from "marscompress";
+
+const result = compressMessages(messages, currentUserMessage, {
+  policy: "frontier",
+  fallbackOnHighRisk: true
+});
+
+await provider.chat({ messages: result.messages });`}</pre>
 
             <h2 id="python">Python</h2>
             <p>
@@ -95,14 +108,16 @@ def compress(context: str, query: str):
   "latencyMs": 1.8,
   "keptBlocks": [{ "heading": "Account", "reason": "strong query match" }],
   "droppedBlocks": [{ "heading": "Changelog", "reason": "low relevance" }],
-  "policy": "MarsCompress/query-aware-v1"
+  "queryCoveragePercent": 100,
+  "fallbackApplied": false,
+  "policy": "MarsCompress/frontier-v2"
 }`}</pre>
 
             <h2 id="production">Production notes</h2>
             <ul>
               <li>Keep system instructions in a distinct block; constraint language is protected automatically.</li>
               <li>Measure answer quality on your own traffic before enforcing a token budget.</li>
-              <li>Use the returned risk signal to fall back to the full context when risk is high.</li>
+              <li>Set <span className="inline-code">fallbackOnHighRisk: true</span> to return the full original context whenever the deterministic verifier reports high risk.</li>
               <li>Cap inbound payload size and authenticate the HTTP route when exposed publicly.</li>
               <li>Extend the checked-in eval cases with examples from your application domain.</li>
             </ul>
@@ -113,4 +128,3 @@ def compress(context: str, query: str):
     </main>
   );
 }
-

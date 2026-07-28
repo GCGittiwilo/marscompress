@@ -2,7 +2,9 @@
 
 MarsCompress is an open, query-aware context compiler for chatbots, RAG pipelines,
 support agents, and coding tools. It removes low-value context before inference
-without another model call, a GPU, an API key, or telemetry.
+without another model call, a GPU, an API key, or telemetry. Version 2 adds
+conversation exchange linking, superseded-state handling, forward references,
+bounded near-duplicate lookup, and million-character scaling.
 
 ## Why
 
@@ -31,8 +33,22 @@ Use the engine directly:
 ```js
 import { compressContext } from "marscompress";
 
-const result = compressContext(context, currentUserMessage);
+const result = compressContext(context, currentUserMessage, {
+  policy: "frontier",
+  fallbackOnHighRisk: true
+});
 console.log(result.compressedText);
+```
+
+For role-aware chat histories:
+
+```js
+import { compressMessages } from "marscompress";
+
+const result = compressMessages(messages, currentUserMessage, {
+  fallbackOnHighRisk: true
+});
+await provider.chat({ messages: result.messages });
 ```
 
 Or use the CLI:
@@ -47,20 +63,27 @@ marscompress --query "What caused the outage?" --file incident.md
 - Exact identifiers, dates, paths, names, and numbers referenced in the query
 - Query-relevant code and surrounding headings
 - Recent chat turns when they carry current evidence
+- Linked user/assistant exchanges and relevant tool-call chains
+- Antecedents for referential phrases such as “it” and “that”
+- The newest matching state unless the query explicitly asks for history
 - One canonical copy of duplicated content
 
-The `risk` field is designed for a production fallback: when risk is high, send
-the original context or retry with a larger `budgetRatio`.
+The `risk` field is designed for a production fallback. Set
+`fallbackOnHighRisk: true` to return the original context automatically when
+the verifier cannot prove full query-term and instruction coverage.
 
 ## Verify
 
 ```bash
 npm run check
 npm run benchmark
+npm run benchmark:scale
+npm run benchmark:pareto
 ```
 
-The bundled suite contains 24 answer-bearing fixtures across customer support,
-RAG documentation, coding agents, incidents, policy, and chat memory. See
+The bundled suite contains 224 answer-bearing fixtures across customer support,
+RAG documentation, coding agents, incidents, policy, and chat memory, plus
+adversarial and 2,000-turn conversation tests. See
 [BENCHMARKS.md](BENCHMARKS.md) for the methodology and current results.
 
 ## Deploy
@@ -85,4 +108,3 @@ need domain vocabulary extensions or a high-risk fallback.
 ## License
 
 MIT. Use, modify, embed, and self-host it anywhere.
-

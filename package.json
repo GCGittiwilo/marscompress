@@ -1,6 +1,6 @@
 {
   "name": "marscompress",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Open, query-aware context compression for chatbots and LLM applications.",
   "license": "MIT",
   "private": false,
@@ -34,6 +34,8 @@
     "typecheck": "tsc --noEmit",
     "check": "npm run typecheck && npm test && npm run build",
     "benchmark": "node scripts/benchmark.mjs",
+    "benchmark:scale": "node scripts/scale-benchmark.mjs",
+    "benchmark:pareto": "node scripts/pareto.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
   },
   "dependencies": {

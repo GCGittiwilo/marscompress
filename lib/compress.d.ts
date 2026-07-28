@@ -27,6 +27,11 @@ export interface CompressionResult {
   droppedBlocks: CompressionBlock[];
   annotations: CompressionAnnotation[];
   policy: string;
+  queryCoveragePercent: number;
+  fallbackApplied: boolean;
+  fallbackReason: string | null;
+  candidateCompressedText?: string;
+  potentialSavingsPercent?: number;
 }
 
 export function estimateTokens(text: string): number;
@@ -34,6 +39,24 @@ export function segmentContext(context: string): string[];
 export function compressContext(
   context: string,
   query: string,
-  options?: { budgetRatio?: number },
+  options?: {
+    budgetRatio?: number;
+    policy?: "precision" | "balanced" | "frontier" | "aggressive";
+    fallbackOnHighRisk?: boolean;
+  },
 ): CompressionResult;
 
+export interface ChatMessage {
+  role: string;
+  content: string;
+}
+
+export function compressMessages(
+  messages: ChatMessage[],
+  query: string,
+  options?: {
+    budgetRatio?: number;
+    policy?: "precision" | "balanced" | "frontier" | "aggressive";
+    fallbackOnHighRisk?: boolean;
+  },
+): CompressionResult & { messages: ChatMessage[] };

@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 };
 
 const domains = [
-  ["Customer support", "4", "100%", "58–60%"],
-  ["RAG documentation", "4", "100%", "36–54%"],
-  ["Coding agents", "4", "100%", "49–56%"],
-  ["Incident logs", "4", "100%", "57–58%"],
-  ["Policy & contracts", "4", "100%", "42–44%"],
-  ["Chat memory", "4", "100%", "52–71%"],
+  ["Customer support", "28", "100%", "100%", "73.9%"],
+  ["RAG documentation", "28", "100%", "100%", "64.5%"],
+  ["Coding agents", "28", "100%", "100%", "64.0%"],
+  ["Incident logs", "28", "100%", "100%", "72.0%"],
+  ["Policy & contracts", "28", "100%", "100%", "69.0%"],
+  ["Chat memory", "84", "100%", "100%", "92.7%"],
 ];
 
 export default function BenchmarksPage() {
@@ -30,12 +30,12 @@ export default function BenchmarksPage() {
           </p>
         </div>
         <div className="benchmark-cards">
-          <article><strong>24 / 24</strong><span>answer-bearing eval cases preserved</span></article>
+          <article><strong>224 / 224</strong><span>answer-bearing eval cases preserved</span></article>
           <article><strong>100%</strong><span>oracle evidence recall in the bundled suite</span></article>
-          <article><strong>&lt;5ms</strong><span>expected warm latency for typical contexts</span></article>
+          <article><strong>77.1%</strong><span>median estimated tokens removed</span></article>
         </div>
         <table className="benchmark-table">
-          <thead><tr><th>Domain</th><th>Cases</th><th>Evidence recall</th><th>Token reduction range</th></tr></thead>
+          <thead><tr><th>Domain</th><th>Cases</th><th>Evidence recall</th><th>Pair coherence</th><th>Median reduction</th></tr></thead>
           <tbody>
             {domains.map((row) => (
               <tr key={row[0]}>{row.map((cell) => <td key={cell}>{cell}</td>)}</tr>
@@ -52,7 +52,9 @@ export default function BenchmarksPage() {
           </p>
           <h2>Run it yourself</h2>
           <pre className="code-block">{`npm test
-npm run benchmark`}</pre>
+npm run benchmark
+npm run benchmark:scale
+npm run benchmark:pareto`}</pre>
           <p>
             Results vary by machine and fixture length. The checked-in report records
             the environment, per-case outcome, aggregate recall, median reduction, and p95 latency.
@@ -61,7 +63,9 @@ npm run benchmark`}</pre>
           <p>
             MarsCompress is lexical and structure-aware, not an embedding model. It can
             miss highly implicit relationships or domain-specific synonyms. When the
-            verifier reports high risk, send the original context or use a larger retention ratio.
+            verifier reports high risk, enable deterministic full-context fallback or use
+            a larger retention ratio. “Pareto frontier” refers to the checked-in corpus and
+            this machine—not a claim of universal optimality over every possible prompt.
           </p>
         </div>
       </section>

@@ -118,9 +118,9 @@ export default function Home() {
         <div className="benchmark-visual">
           <div className="benchmark-label"><span>Oracle evidence recall</span><b>100%</b></div>
           <div className="benchmark-track"><i style={{ width: "100%" }} /></div>
-          <div className="benchmark-label"><span>Median tokens removed</span><b>54.3%</b></div>
-          <div className="benchmark-track coral"><i style={{ width: "54.3%" }} /></div>
-          <div className="benchmark-label"><span>Eval cases passing</span><b>24 / 24</b></div>
+          <div className="benchmark-label"><span>Median tokens removed</span><b>77.1%</b></div>
+          <div className="benchmark-track coral"><i style={{ width: "77.1%" }} /></div>
+          <div className="benchmark-label"><span>Eval cases passing</span><b>224 / 224</b></div>
           <div className="benchmark-track"><i style={{ width: "100%" }} /></div>
           <p>Results are reproducible—not a marketing-only hosted benchmark.</p>
         </div>
